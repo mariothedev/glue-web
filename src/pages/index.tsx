@@ -12,6 +12,7 @@ const IndexPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.header}>
+        <p>Test</p>
         <Counter />
       </header>
     </div>

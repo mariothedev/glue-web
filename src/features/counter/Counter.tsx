@@ -1,26 +1,35 @@
-import { useState } from 'react'
-
-import { useAppSelector, useAppDispatch } from '../../app/hooks'
-import {
-  decrement,
-  increment,
-  incrementByAmount,
-  incrementAsync,
-  incrementIfOdd,
-  selectCount,
-} from './counterSlice'
-import styles from './Counter.module.css'
+import { useState, useEffect } from 'react'
+// import { couch } from '../../app/db'
+// import { useAppSelector, useAppDispatch } from '../../app/hooks'
+// import {
+//   decrement,
+//   increment,
+//   incrementByAmount,
+//   incrementAsync,
+//   incrementIfOdd,
+//   selectCount,
+// } from './counterSlice'
+// import styles from './Counter.module.css'
 
 function Counter() {
-  const dispatch = useAppDispatch()
-  const count = useAppSelector(selectCount)
-  const [incrementAmount, setIncrementAmount] = useState('2')
+  // const dispatch = useAppDispatch()
+  // const count = useAppSelector(selectCount)
+  // const [incrementAmount, setIncrementAmount] = useState('2')
 
-  const incrementValue = Number(incrementAmount) || 0
-
+  // const incrementValue = Number(incrementAmount) || 0
+  useEffect(() => {
+    // couch.listDatabases().then(dbs => console.log(dbs), err => {
+    //   // request error occured
+    //   console.log(err)
+    // });
+    // db.insert(p).then((response) => {
+    //   p.processAPIResponse(response)
+    //   console.log(p)
+    // })
+  }, []);
   return (
     <div>
-      <div className={styles.row}>
+      {/* <div className={styles.row}>
         <button
           className={styles.button}
           aria-label="Decrement value"
@@ -62,9 +71,14 @@ function Counter() {
         >
           Add If Odd
         </button>
-      </div>
+
+      </div> */}
+      <p>Hello</p>
     </div>
   )
 }
 
 export default Counter
+
+
+

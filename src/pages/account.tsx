@@ -5,9 +5,8 @@ import { useAppDispatch, useAppSelector } from '../app/hooks'
 import {
   selectAccount,
   setAccount
-} from '../pages/accountReducer'
+} from '../app/accountReducer'
 import { useRouter } from 'next/router'
-
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
@@ -20,27 +19,38 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const nano = require('nano')('http://mario:password123fl@62.16.133.196:5984');
-  const db = nano.use('learners');
 
   try {
-    const doc = await db.get(email)
-    if (doc) {
+    const doc = await fetch(`http://localhost:3000/api/user?email=${email}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
+    let res = await doc.json()
+
+    if (res) {
       return {
-        props: doc
+        props: res
       }
     }
   } catch ({ statusCode }) {
 
     if (statusCode === 404) {
-      await db.insert({ _id: email })
 
-      const doc = await db.get(email)
-      if (doc) {
+    const doc = await fetch(`http://localhost:3000/api/user?email=${email}`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
+      let res = await doc.json()
+
+      if (res) {
         return {
-          props: {
-            doc
-          }
+          props: res 
         }
       }
     }

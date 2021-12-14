@@ -69,8 +69,15 @@ const AccountPage: NextPage = (doc) => {
 
   return (
     <div>
-      <button onClick={signUserOut}>Sign out</button>
-      <h1>{JSON.stringify(account)}</h1>
+      {status === 'loading' &&
+        <p> Loading... </p>
+      }
+      {status !== 'loading' && session &&
+        <div>
+          <button onClick={signUserOut}>Sign out</button>
+          <h1>{JSON.stringify(account)}</h1>
+        </div>
+      }
     </div>
   )
 }

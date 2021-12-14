@@ -17,8 +17,11 @@ function Main() {
     }, [session, status])
     return (
         <div>
-            {!session &&
+            {!session && status !== 'loading' &&
                 <button onClick={() => signIn()}> Sign in</button>
+            }
+            {status === 'loading' &&
+                <p> Loading... </p>
             }
         </div>
     )

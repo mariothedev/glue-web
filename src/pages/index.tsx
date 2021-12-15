@@ -30,7 +30,7 @@ const IndexPage: NextPage = () => {
             <button onClick={() => signIn()}>Sign in</button>
           }
           {status === 'loading' &&
-            <p> Loading... </p>
+            <p> Loading.... </p>
           }
         </div>
       </main>

@@ -9,10 +9,9 @@ jobs:
         with:
           node-version: '14'
       - run: npm i
-      - run: npm run build
-      - run: npm start
-      - uses: cypress-io/github-action@v2
-        with:
-          browser: chrome
-          headless: true
+      - run: npm test
+      # - uses: cypress-io/github-action@v2
+        # with:
+        #   browser: chrome
+        #   headless: true
       

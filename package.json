@@ -7,7 +7,6 @@
     "type-check": "tsc",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
-    "e2e": "npm run build && start-server-and-test start http://localhost:3000 cypress",
     "test": "npm run build && start-server-and-test start http://localhost:3000 cypress:headless"
   },
   "dependencies": {

@@ -27,10 +27,10 @@ const IndexPage: NextPage = () => {
       <main className={styles.header}>
         <div>
           {!session && status !== 'loading' &&
-            <button onClick={() => signIn()}>Sign in</button>
+            <button onClick={() => signIn()}>Sign in yo</button>
           }
           {status === 'loading' &&
-            <p> Loading.... </p>
+            <p> Loading....... </p>
           }
         </div>
       </main>

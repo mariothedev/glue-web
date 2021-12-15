@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
   try {
-    const doc = await fetch(`http://localhost:3000/api/user?email=${email}`, {
+    const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user?email=${email}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if (statusCode === 404) {
 
-    const doc = await fetch(`http://localhost:3000/api/user?email=${email}`, {
+    const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user?email=${email}`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"

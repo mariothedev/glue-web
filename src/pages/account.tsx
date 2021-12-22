@@ -30,16 +30,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     let res = await doc.json()
 
+    if (res.error) {
+      throw 404
+    }
+
     if (res) {
       return {
         props: res
       }
     }
-  } catch ({ statusCode }) {
+  } catch (e) {
 
-    if (statusCode === 404) {
+    if (e === 404) {
 
-    const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user?email=${email}`, {
+      const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user?email=${email}`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
@@ -48,9 +52,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
       let res = await doc.json()
 
+      if (res.error) {
+        return {
+          props: {error: "problem creating entity in database"}
+        }
+      }
+
       if (res) {
         return {
-          props: res 
+          props: res
         }
       }
     }

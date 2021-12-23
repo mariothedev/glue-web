@@ -1,8 +1,18 @@
 import db from "../../lib/couchdb"
 import type { NextApiHandler } from 'next'
+import { getToken } from "next-auth/jwt"
+/* 
 
+
+Goal: verify token and have idToken pass through here...
+
+*/
 const userHandler: NextApiHandler = async (request, response) => {
-  const { query: { email }, method, body: { settings, vocabulary } } = request
+  const { query: { email }, method, body: { settings, vocabulary }, headers: { authorization } } = request
+
+  console.log('api user endpoint')
+  console.log(authorization)
+  console.log(await getToken(req: request, secret: process.env.SECRET))
 
   if (!email) {
     return response.status(400).json({ error: 'incorrect request url query' })
@@ -12,6 +22,7 @@ const userHandler: NextApiHandler = async (request, response) => {
     try {
       console.log('get API hit')
       const user = await db.get(email)
+
       return response.json(user)
     } catch (error) {
       return response.status(404).json({ error: 'failed to load data' })

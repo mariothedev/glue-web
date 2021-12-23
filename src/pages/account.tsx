@@ -10,8 +10,11 @@ import { useRouter } from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
-  const { query } = context
+  const { query  } = context
   const { email } = query
+
+  console.log("serverside props")
+  console.log(context.req.headers.cookie)
 
   if (!email) {
     return {

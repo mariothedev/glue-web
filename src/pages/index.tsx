@@ -13,9 +13,9 @@ const IndexPage: NextPage = () => {
 
   useEffect(() => {
     if (session && status === 'authenticated') {
-      console.log('client side session')
-      console.log(session)
-      router.push({ pathname: '/account', query: { email: session.user.email } })
+      // console.log('client side session')
+      // console.log(session)
+      router.push({ pathname: '/account', query: { email: session.user.email, token: `${session.accessToken}` } })
     }
   }, [session, status])
 

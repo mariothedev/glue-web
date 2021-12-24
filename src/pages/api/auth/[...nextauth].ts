@@ -10,12 +10,20 @@ export default NextAuth({
     ],
     secret: process.env.SECRET,
     callbacks: {
+        async session({ session, token, user }) {
+            // console.log('session:')
+            session.accessToken = token.accessToken
+            // console.log(session)
+            // console.log(user)
+            return session
+        },
         async jwt({ token, account }) {
-            // Persist the OAuth access_token to the token right after signin
-            console.log('jwt fired', token, account)
-            if (account) {
+            if (account?.access_token) {
                 token.accessToken = account.access_token
             }
+            // console.log('jwt:')
+            // console.log(token)
+            // console.log(account)
             return token
         }
     }

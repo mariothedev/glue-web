@@ -1,18 +1,22 @@
 import db from "../../lib/couchdb"
 import type { NextApiHandler } from 'next'
-import { getToken } from "next-auth/jwt"
-/* 
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_ID);
 
 
-Goal: verify token and have idToken pass through here...
-
-*/
 const userHandler: NextApiHandler = async (request, response) => {
   const { query: { email }, method, body: { settings, vocabulary }, headers: { authorization } } = request
 
-  console.log('api user endpoint')
-  console.log(authorization)
-  console.log(await getToken(req: request, secret: process.env.SECRET))
+  const tokenArray = authorization.split(" ");
+
+  const ticket = await client.verifyIdToken({
+      idToken: tokenArray[1],
+      audience: [process.env.GOOGLE_ID, process.env.GOOGLE_ANDROID_ID],  
+  });
+  const payload = ticket.getPayload();
+  // const userid = payload['sub'];
+
+  console.log(payload)
 
   if (!email) {
     return response.status(400).json({ error: 'incorrect request url query' })

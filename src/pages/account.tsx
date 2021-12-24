@@ -10,11 +10,8 @@ import { useRouter } from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
-  const { query  } = context
-  const { email } = query
-
-  console.log("serverside props")
-  console.log(context.req.headers.cookie)
+  const { query } = context
+  const { email, token } = query
 
   if (!email) {
     return {
@@ -27,7 +24,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user?email=${email}`, {
       method: 'GET',
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       }
     })
 
@@ -49,7 +47,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user?email=${email}`, {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         }
       })
 
@@ -57,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
       if (res.error) {
         return {
-          props: {error: "problem creating entity in database"}
+          props: { error: "problem creating entity in database" }
         }
       }
 

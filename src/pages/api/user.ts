@@ -21,7 +21,7 @@ const authenticatedAPIHandler = async (request: any, response: any, email: any) 
   if (method === "POST") {
     try {
       console.log('post API hit')
-      const user = await db.insert({ _id: email, settings: {}, vocabulary: [] })
+      const user = await db.insert({ email: email, settings: {}, vocabulary: [] })
       return response.json(user)
     } catch (error) {
       return response.status(404).json({ error: 'failed to load data' })

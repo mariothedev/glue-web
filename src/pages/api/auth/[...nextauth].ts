@@ -10,20 +10,14 @@ export default NextAuth({
     ],
     secret: process.env.SECRET,
     callbacks: {
-        async session({ session, token, user }) {
-            // console.log('session:')
-            session.accessToken = token.accessToken
-            // console.log(session)
-            // console.log(user)
+        async session({ session, token }) {
+            session.idToken = token.idToken
             return session
         },
         async jwt({ token, account }) {
-            if (account?.access_token) {
-                token.accessToken = account.access_token
+            if (account?.id_token) {
+                token.idToken = account.id_token
             }
-            // console.log('jwt:')
-            // console.log(token)
-            // console.log(account)
             return token
         }
     }

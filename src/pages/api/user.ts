@@ -1,26 +1,11 @@
 import db from "../../lib/couchdb"
 import type { NextApiHandler } from 'next'
-const {OAuth2Client} = require('google-auth-library');
+const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_ID);
 
+const authenticatedAPIHandler = async (request: any, response: any, email: any) => {
 
-const userHandler: NextApiHandler = async (request, response) => {
-  const { query: { email }, method, body: { settings, vocabulary }, headers: { authorization } } = request
-
-  const tokenArray = authorization.split(" ");
-
-  const ticket = await client.verifyIdToken({
-      idToken: tokenArray[1],
-      audience: [process.env.GOOGLE_ID, process.env.GOOGLE_ANDROID_ID],  
-  });
-  const payload = ticket.getPayload();
-  // const userid = payload['sub'];
-
-  console.log(payload)
-
-  if (!email) {
-    return response.status(400).json({ error: 'incorrect request url query' })
-  }
+  const { method, body: { settings, vocabulary } } = request
 
   if (method === "GET") {
     try {
@@ -55,6 +40,32 @@ const userHandler: NextApiHandler = async (request, response) => {
       return response.status(404).json({ error: 'failed to load data' })
     }
   }
+}
+
+const userHandler: NextApiHandler = async (request, response) => {
+  const { headers: { authorization } } = request
+
+  try {
+    const tokenArray = authorization.split(" ");
+
+    const ticket = await client.verifyIdToken({
+      idToken: tokenArray[1],
+      audience: [process.env.GOOGLE_ID, process.env.GOOGLE_ANDROID_ID],
+    });
+    const payload = ticket.getPayload();
+    const email = payload['email'];
+
+    if (!email) {
+      throw new Error('no email found')
+    }
+    authenticatedAPIHandler(request, response, email)
+  } catch (error) {
+
+    return response.status(401).json({ error: 'failed authentication' })
+
+  }
+
+
 }
 
 export default userHandler

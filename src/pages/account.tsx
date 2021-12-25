@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import type { GetServerSideProps, NextPage, GetStaticPaths } from 'next'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useEffect } from 'react'
+import type { GetServerSideProps, NextPage } from 'next'
+import { useSession, signOut } from 'next-auth/react'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import {
   selectAccount,
@@ -11,9 +11,9 @@ import { useRouter } from 'next/router'
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const { query } = context
-  const { email, token } = query
+  const { token } = query
 
-  if (!email) {
+  if (!token) {
     return {
       props: {}
     }
@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
   try {
-    const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user?email=${email}`, {
+    const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if (e === 404) {
 
-      const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user?email=${email}`, {
+      const doc = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
